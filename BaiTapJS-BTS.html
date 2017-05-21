@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>Bài tập nâng cao</h1>
+    <p>Cài đặt thuật toán Binary Search Tree</p>
+
+
+    <script language="javascript">
+        // tạo node
+        // tạo cây
+        // thêm
+        // xóa
+        // tìm kiếm
+        // duyệt
+        function Node(_data, _parent, _node_left , _node_right ){
+            this.data = _data || null;
+            this.left= _node_left || null;
+            this.right= _node_right || null;
+            this.parent= _parent || null;
+            return this;
+        }
+        Node.prototype.isNull = function(){
+            return this.data === null;
+        };
+        Node.prototype.isLeaf = function() {
+            return ((this.right===null) && (this.left===null))
+        };
+        Node.prototype.leftChild = function() {
+            return this.left;
+        };
+        Node.prototype.rightChild = function() {
+            return this.right;
+        };
+        Node.prototype.addNode = function (_node) {
+            if (this.data === _node.data)
+                return false;
+            else if (this.data > _node.data){
+                if(this.left===null){ // nếu node chưa có left thì thêm vào
+                    this.left = _node;
+                    _node.parent = this;
+                    return true;
+                }
+                else
+                    return this.left.addNode(_node); // gọi đệ quy
+            }
+            else{// trường hợp this.data < _node.data
+                if(this.right===null){ // nếu node chưa có right thì thêm vào
+                    this.right = _node;
+                    _node.parent = this;
+                    return true;
+                }
+                else
+                    return this.right.addNode(_node); // gọi đệ quy
+            }
+        };
+        Node.prototype.deleteNode = function(){
+            if (this.isLeaf()){ // trường hợp xóa nút lá
+                if (this.parent.left === this)
+                    this.parent.left = null;
+                else
+                    this.parent.right = null;
+                this.parent = null;
+            }
+            else if (this.left!==null && this.right!==null){ // trường hợp nút có 2 con
+                var temp_node = this.right;
+                while (temp_node.left !==null)  // tìm nút nhỏ nhất nằm bên phải nút cần xóa
+                    temp_node = temp_node.left;
+                this.data = temp_node.data; // chuyển giá trị
+                return temp_node.deleteNode();
+            }
+            else { // trường hợp nút có một con
+
+                temp_node = null;
+                if (this.left !== null)
+                    temp_node = this.left;
+                else
+                    temp_node = this.right;
+                this.data = temp_node.data; // chuyển giá trị của nút tìm được vào nút cần xóa
+                return temp_node.deleteNode();
+            }
+            return true;
+        };
+        Node.prototype.search = function (value){ // tìm kiếm một nút theo giá trị. nút gọi hàm đc xem là nút gốc
+//            if(this.isNull){
+//                return null;
+//            }
+
+            if (this.data == value)
+                return this;
+            else if (this.data > value){
+                return this.left.search(value);
+            }
+            else
+                return this.right.search(value);
+        };
+//        Node.prototype.traverse = function (list) { // thứ tự duyệt: left -> node -> right
+//            if (!this.isNull){
+//                this.left.traverse(list);
+//                list.push(this.data);
+//                this.right.traverse(list);
+//            }
+//        };
+        var node1 = new Node(34);
+        var node2 = new Node(17);
+        var node3 = new Node(66);
+        var node4 = new Node(25);
+        var node5 = new Node(50);
+        var node6 = new Node(71);
+        var node7 = new Node(68);
+        var node8 = new Node(94);
+        node1.addNode(node2);
+        node1.addNode(node3);
+        node1.addNode(node4);
+        node1.addNode(node5);
+        node1.addNode(node6);
+        node1.addNode(node7);
+        node1.addNode(node8);
+        var li = new Array();
+
+
+    </script>
+
+</body>
+</html>
