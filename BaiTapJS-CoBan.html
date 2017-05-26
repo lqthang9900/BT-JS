@@ -44,15 +44,22 @@
         }
         // hàm phân tích một số thành tích nguyên tố
         function phanTichSo(x) {
-
+            var mang = mangSNT(x);
             if (x>=2){
                 var kq = x + " = ";
-                mangSNT(x).forEach(function (element) {
-                    if( !(x%element) ){
-                        kq+= element + " x " ;
-                        x/=element;
+                // mangSNT(x).forEach(function (element) {
+                //     if( !(x%element) ){
+                //         kq+= element + " x " ;
+                //         x/=element;
+                //     }
+                // });
+                for (var i = 0; i < mang.length; i++) {
+                    if( !(x%mang[i]) ){
+                        kq+= mang[i] + " x " ;
+                        x/=mang[i];
+                        i--;
                     }
-                });
+                }
                 return kq.slice(0,-3);
             }
             else
